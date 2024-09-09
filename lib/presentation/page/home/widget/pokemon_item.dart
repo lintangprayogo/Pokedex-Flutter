@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/presentation/page/component/pokeball.dart';
-import 'package:pokedex/presentation/pokemon_domain.dart';
+import 'package:pokedex/domain/pokemon_domain.dart';
 import 'package:pokedex/util/extension.dart';
 import 'package:pokedex/util/theme/app_theme.dart';
 

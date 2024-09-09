@@ -24,7 +24,7 @@ class PokeApp extends StatelessWidget {
     ]);
     return BlocProvider(
       create: (context) =>
-          PokemoBloc(PokemonService(dio: Dio()))..add(PokemonFetched()),
+          PokemonBloc(PokemonService(dio: Dio()))..add(PokemonFetched()),
       child: MaterialApp.router(
         routerConfig: route,
         theme: lightTheme,

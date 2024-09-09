@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                const SizedBox(
                 height: 16,
               ),
-              BlocBuilder<PokemoBloc, PokemonState>(
+              BlocBuilder<PokemonBloc, PokemonState>(
                 builder: (context, state) {
                   switch (state.status) {
                     case PokemonStatus.failure:
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<PokemoBloc>().add(PokemonFetched());
+    if (_isBottom) context.read<PokemonBloc>().add(PokemonFetched());
   }
 
   bool get _isBottom {

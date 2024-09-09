@@ -2,12 +2,13 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pokedex/data/network/list/pokemon_request.dart';
 import 'package:pokedex/data/pokemon_repository.dart';
-import 'package:pokedex/presentation/pokemon_domain.dart';
+import 'package:pokedex/domain/pokemon_domain.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-part 'pokemons_event.dart';
-part 'pokemon_state.dart';
+
 part 'pokemon_bloc.freezed.dart';
+part 'pokemon_state.dart';
+part 'pokemon_event.dart';
 
 const throttleDuration = Duration(milliseconds: 100);
 

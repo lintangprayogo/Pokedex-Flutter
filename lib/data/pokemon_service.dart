@@ -5,7 +5,7 @@ import 'package:pokedex/data/network/shared/pokemon_stat_response.dart';
 import 'package:pokedex/data/network/list/pokemon_name_response.dart';
 import 'package:pokedex/data/network/list/pokemon_request.dart';
 import 'package:pokedex/data/pokemon_repository.dart';
-import 'package:pokedex/presentation/pokemon_domain.dart';
+import 'package:pokedex/domain/pokemon_domain.dart';
 
 class PokemonService extends PokemonRepository {
   final Dio dio;
@@ -15,6 +15,7 @@ class PokemonService extends PokemonRepository {
 
   @override
   Future<List<PokemonDomain>> fetchPokemons(PokemonRequest request) async {
+
     final responseList = await dio
         .get("$baseUrl?limit=${request.limit}&offset=${request.offset}");
 
