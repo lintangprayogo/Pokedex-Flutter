@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pokedex/data/network/shared/pokemon_type.dart';
+import 'package:pokedex/data/network/pokemon_info/type_slot/type/pokemon_type.dart';
 
 part 'pokemon_type_slot.freezed.dart';
 part 'pokemon_type_slot.g.dart';

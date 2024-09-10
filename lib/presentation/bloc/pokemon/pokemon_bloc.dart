@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pokedex/data/network/list/pokemon_request.dart';
-import 'package:pokedex/data/pokemon_repository.dart';
+import 'package:pokedex/data/network/shared/pokemon_request.dart';
+import 'package:pokedex/domain/get_pokemon.dart';
 import 'package:pokedex/domain/pokemon_domain.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -18,10 +18,10 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
   };
 }
 
-class PokemoBloc extends Bloc<PokemonEvent, PokemonState> {
-  final PokemonRepository _repository;
+class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
+  final GetPokemon _getPokemon;
 
-  PokemoBloc(this._repository) : super(PokemonState()) {
+  PokemonBloc(this._getPokemon) : super(PokemonState()) {
     on<PokemonEvent>(_onPokemonsFetched,
         transformer: throttleDroppable(throttleDuration));
   }
@@ -31,8 +31,8 @@ class PokemoBloc extends Bloc<PokemonEvent, PokemonState> {
     if (state.hasReachedMax) return;
 
     try {
-      final pokemons = await _repository
-          .fetchPokemons(PokemonRequest(limit: 5, offset: state.offset));
+      final pokemons = await _getPokemon
+          .excute(PokemonRequest(offset: state.offset));
 
       return pokemons.isEmpty
           ? emit(state.copyWith(hasReachedMax: true))
@@ -42,6 +42,7 @@ class PokemoBloc extends Bloc<PokemonEvent, PokemonState> {
               offset: state.offset + pokemons.length,
             ));
     } catch (e) {
+      print("${e}");
       emit(state.copyWith(status: PokemonStatus.failure));
     }
   }

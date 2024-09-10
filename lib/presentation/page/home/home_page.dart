@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/presentation/bloc/pokemon_bloc.dart';
+import 'package:pokedex/presentation/bloc/pokemon/pokemon_bloc.dart';
 import 'package:pokedex/presentation/page/base_page.dart';
 import 'package:pokedex/presentation/page/component/bottom_loader.dart';
 import 'package:pokedex/presentation/page/component/pokeball.dart';
@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return BasePage(
         child: Stack(
       children: [
@@ -71,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                     contentPadding: const EdgeInsets.all(10),
                     hintText: "What pokémon are you looking for?"),
               ),
-               const SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               BlocBuilder<PokemonBloc, PokemonState>(
@@ -98,8 +99,9 @@ class _HomePageState extends State<HomePage> {
                       );
                     case PokemonStatus.initial:
                       return Container(
-                        margin: const EdgeInsets.only(top: 16),
-                        child: const Center(child: CircularProgressIndicator()));
+                          margin: const EdgeInsets.only(top: 16),
+                          child:
+                              const Center(child: CircularProgressIndicator()));
                   }
                 },
               )
@@ -119,7 +121,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<PokemonBloc>().add(PokemonFetched());
+    if (_isBottom) context.read<PokemonBloc>().add(PokemonEvent());
   }
 
   bool get _isBottom {

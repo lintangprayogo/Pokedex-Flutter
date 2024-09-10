@@ -115,9 +115,7 @@ class __$$PokemonNameResponseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PokemonNameResponseImpl
-    with DiagnosticableTreeMixin
-    implements _PokemonNameResponse {
+class _$PokemonNameResponseImpl implements _PokemonNameResponse {
   const _$PokemonNameResponseImpl(
       {required this.count, required final List<Result> results})
       : _results = results;
@@ -136,17 +134,8 @@ class _$PokemonNameResponseImpl
   }
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'PokemonNameResponse(count: $count, results: $results)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'PokemonNameResponse'))
-      ..add(DiagnosticsProperty('count', count))
-      ..add(DiagnosticsProperty('results', results));
   }
 
   @override
