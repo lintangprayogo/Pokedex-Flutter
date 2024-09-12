@@ -1,21 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'evolution.dart';
+part of 'egg_group.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EvolutionImpl _$$EvolutionImplFromJson(Map<String, dynamic> json) =>
-    _$EvolutionImpl(
-      id: (json['id'] as num).toInt(),
+_$EggGroupImpl _$$EggGroupImplFromJson(Map<String, dynamic> json) =>
+    _$EggGroupImpl(
       name: json['name'] as String,
-      level: (json['level'] as num).toInt(),
+      url: json['url'] as String,
     );
 
-Map<String, dynamic> _$$EvolutionImplToJson(_$EvolutionImpl instance) =>
+Map<String, dynamic> _$$EggGroupImplToJson(_$EggGroupImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
-      'level': instance.level,
+      'url': instance.url,
     };

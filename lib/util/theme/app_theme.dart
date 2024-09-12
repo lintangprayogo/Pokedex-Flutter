@@ -18,19 +18,6 @@ abstract class AppColors {
   Color get tabDivisor => const Color(0xFFE4E4E4);
   Color get tabIndicator => const Color(0xFF6C79DB);
 
-  Color get marsIcon => const Color(0xFF919BE4);
-  Color get venusIcon => const Color(0xFFF38EB3);
-
-  Color get unknownIcon => const Color(0xFF303943);
-
-  Color get drawerAbilities => const Color(0xFF59ABF6);
-  Color get drawerItems => const Color(0xFFFFCE4B);
-  Color get drawerLocations => const Color(0xFF7C538C);
-  Color get drawerMoves => const Color(0xFFFF8D82);
-  Color get drawerPokedex => const Color(0xFF50C1A6);
-  Color get drawerTypeCharts => const Color(0xFFB1736C);
-  Color get drawerDisabled => const Color(0xFF999999);
-
   Color baseStatsBar(double percentage) {
     if (percentage < 0.1666) {
       return const Color(0xFFF34544);

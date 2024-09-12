@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex/domain/pokemon_domain.dart';
+import 'package:pokedex/domain/pokemon_info_domain.dart';
 import 'package:pokedex/presentation/page/component/pokeball.dart';
+import 'package:pokedex/presentation/page/component/pokemon_type_widget.dart';
 import 'package:pokedex/util/extension.dart';
 
 class TopSection extends StatelessWidget {
-  final PokemonDomain pokemon;
+  final PokemonInfoDomain pokemon;
 
   const TopSection({super.key, required this.pokemon});
 
@@ -39,47 +40,36 @@ class TopSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                   pokemon.name.toTitleCase,
+                    pokemon.name.toTitleCase,
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
-                  Row(
-                    children: pokemon.types
-                        .map((type) => Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white30,
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Text(
-                                  type,
-                                  style:  Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ))
-                        .toList(),
+                  PokeTypesWidget(
+                    types: pokemon.types,
+                    size: 16,
+                    textStyle: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(color: Colors.white),
                   )
                 ],
               ),
               Text(
                 pokemon.id,
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: Colors.white),
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineLarge
+                    ?.copyWith(color: Colors.white),
               ),
             ],
           ),
         ),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            PokeballWidget(size: 150, color: Colors.white)
+            PokeballWidget(size: 150, color: Colors.black.withOpacity(0.2))
           ],
         )
       ],

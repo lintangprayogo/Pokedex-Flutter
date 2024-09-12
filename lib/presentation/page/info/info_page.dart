@@ -2,21 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex/domain/pokemon_domain.dart';
 import 'package:pokedex/presentation/bloc/info/pokemon_info_cubit.dart';
 import 'package:pokedex/presentation/page/base_page.dart';
 import 'package:pokedex/presentation/page/component/bottom_loader.dart';
 import 'package:pokedex/presentation/page/info/section/bottom/bottom_section.dart';
-import 'package:pokedex/presentation/page/info/section/bottom/top_section.dart';
+import 'package:pokedex/presentation/page/info/section/top/top_section.dart';
 import 'package:pokedex/util/theme/app_theme.dart';
 
 class InfoPage extends StatelessWidget {
-  final PokemonDomain pokemon;
 
-  const InfoPage({super.key, required this.pokemon});
+
+  const InfoPage({super.key});
   @override
   Widget build(BuildContext context) {
-    // draggableScrollableSheetController = DraggableScrollableActuator.of(context);
     return BasePage(child: BlocBuilder<PokemonInfoCubit, PokemonInfoState>(
       builder: (context, state) {
         if (state.status == PokemonInfoStatus.initial) {
@@ -29,6 +27,11 @@ class InfoPage extends StatelessWidget {
             child: Text("Failed To Get Detail"),
           );
         }
+      if (state.info == null) {
+          return const Center(
+            child: Text("Pokemon Not Found"),
+          );
+        }
         final info = state.info!;
         return Stack(
           fit: StackFit.loose,
@@ -37,10 +40,10 @@ class InfoPage extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.fromLTRB(8, 24, 8, 0),
                 decoration: BoxDecoration(
-                  color:
-                      AppTheme.getColors(context).pokemonItem(info.types.first),
+                  color: AppTheme.getColors(context)
+                      .pokemonItem(state.info!.types.first),
                 ),
-                child: TopSection(pokemon: pokemon),
+                child: TopSection(pokemon: state.info!),
               ),
             ),
             Positioned.fill(
@@ -65,14 +68,14 @@ class InfoPage extends StatelessWidget {
                         SizedBox(
                           child: Stack(
                             children: [
-                              DetailBody(data: info),
+                              DetailBody(info: info),
                               Transform.translate(
                                 offset: const Offset(0, -128),
                                 child: Center(
                                   child: Image.network(
-                                    info.sprites,
-                                    width: 100,
-                                    height: 100,
+                                    state.info!.sprites,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.45,
                                   ),
                                 ),
                               ),
@@ -91,5 +94,3 @@ class InfoPage extends StatelessWidget {
     ));
   }
 }
-
-

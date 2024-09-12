@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/domain/pokemon_domain.dart';
 import 'package:pokedex/presentation/page/component/pokeball.dart';
 import 'package:pokedex/util/extension.dart';
 
 class PokeTypesWidget extends StatelessWidget {
-  final PokemonDomain pokemon;
+  final List<String> types;
 
   final TextStyle? textStyle;
+  final double size;
 
-  const PokeTypesWidget({
-    super.key,
-    required this.pokemon,
-    this.textStyle,
-  });
+  const PokeTypesWidget(
+      {super.key, required this.types, this.textStyle, this.size = 10});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ...pokemon.types.map((e) => Container(
+        ...types.map((e) => Container(
               padding: const EdgeInsets.all(8),
               margin: const EdgeInsets.only(right: 8),
               decoration: BoxDecoration(
@@ -29,11 +26,10 @@ class PokeTypesWidget extends StatelessWidget {
                 children: [
                   Image.asset(
                     "assets/images/types/${e.toLowerCase()}.png",
-                    width: 10,
-                    height: 10,
+                    width: size,
+                    height: size,
                     errorBuilder: (context, error, stackTrace) {
-                      return const PokeballWidget(
-                          size: 10, color: Colors.white);
+                      return PokeballWidget(size: size, color: Colors.white);
                     },
                   ),
                   const SizedBox(

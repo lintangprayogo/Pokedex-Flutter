@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pokedex/domain/pokemon_info_domain.dart';
 import 'package:pokedex/util/extension.dart';
 
-class MovesPage extends StatelessWidget {
-  const MovesPage({
+class MovesTab extends StatelessWidget {
+  const MovesTab({
     super.key,
     required this.data,
   });

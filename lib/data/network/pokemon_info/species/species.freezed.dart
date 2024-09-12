@@ -20,7 +20,9 @@ Species _$SpeciesFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Species {
+  Habitat? get habitat => throw _privateConstructorUsedError;
   GrowthRate get growthRate => throw _privateConstructorUsedError;
+  List<EggGroup> get eggGroups => throw _privateConstructorUsedError;
 
   /// Serializes this Species to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,8 +38,10 @@ abstract class $SpeciesCopyWith<$Res> {
   factory $SpeciesCopyWith(Species value, $Res Function(Species) then) =
       _$SpeciesCopyWithImpl<$Res, Species>;
   @useResult
-  $Res call({GrowthRate growthRate});
+  $Res call(
+      {Habitat? habitat, GrowthRate growthRate, List<EggGroup> eggGroups});
 
+  $HabitatCopyWith<$Res>? get habitat;
   $GrowthRateCopyWith<$Res> get growthRate;
 }
 
@@ -56,14 +60,38 @@ class _$SpeciesCopyWithImpl<$Res, $Val extends Species>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? habitat = freezed,
     Object? growthRate = null,
+    Object? eggGroups = null,
   }) {
     return _then(_value.copyWith(
+      habitat: freezed == habitat
+          ? _value.habitat
+          : habitat // ignore: cast_nullable_to_non_nullable
+              as Habitat?,
       growthRate: null == growthRate
           ? _value.growthRate
           : growthRate // ignore: cast_nullable_to_non_nullable
               as GrowthRate,
+      eggGroups: null == eggGroups
+          ? _value.eggGroups
+          : eggGroups // ignore: cast_nullable_to_non_nullable
+              as List<EggGroup>,
     ) as $Val);
+  }
+
+  /// Create a copy of Species
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $HabitatCopyWith<$Res>? get habitat {
+    if (_value.habitat == null) {
+      return null;
+    }
+
+    return $HabitatCopyWith<$Res>(_value.habitat!, (value) {
+      return _then(_value.copyWith(habitat: value) as $Val);
+    });
   }
 
   /// Create a copy of Species
@@ -84,8 +112,11 @@ abstract class _$$SpeciesImplCopyWith<$Res> implements $SpeciesCopyWith<$Res> {
       __$$SpeciesImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({GrowthRate growthRate});
+  $Res call(
+      {Habitat? habitat, GrowthRate growthRate, List<EggGroup> eggGroups});
 
+  @override
+  $HabitatCopyWith<$Res>? get habitat;
   @override
   $GrowthRateCopyWith<$Res> get growthRate;
 }
@@ -103,13 +134,23 @@ class __$$SpeciesImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? habitat = freezed,
     Object? growthRate = null,
+    Object? eggGroups = null,
   }) {
     return _then(_$SpeciesImpl(
+      habitat: freezed == habitat
+          ? _value.habitat
+          : habitat // ignore: cast_nullable_to_non_nullable
+              as Habitat?,
       growthRate: null == growthRate
           ? _value.growthRate
           : growthRate // ignore: cast_nullable_to_non_nullable
               as GrowthRate,
+      eggGroups: null == eggGroups
+          ? _value._eggGroups
+          : eggGroups // ignore: cast_nullable_to_non_nullable
+              as List<EggGroup>,
     ));
   }
 }
@@ -117,17 +158,32 @@ class __$$SpeciesImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$SpeciesImpl implements _Species {
-  _$SpeciesImpl({required this.growthRate});
+  _$SpeciesImpl(
+      {this.habitat = null,
+      required this.growthRate,
+      final List<EggGroup> eggGroups = const []})
+      : _eggGroups = eggGroups;
 
   factory _$SpeciesImpl.fromJson(Map<String, dynamic> json) =>
       _$$SpeciesImplFromJson(json);
 
   @override
+  @JsonKey()
+  final Habitat? habitat;
+  @override
   final GrowthRate growthRate;
+  final List<EggGroup> _eggGroups;
+  @override
+  @JsonKey()
+  List<EggGroup> get eggGroups {
+    if (_eggGroups is EqualUnmodifiableListView) return _eggGroups;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_eggGroups);
+  }
 
   @override
   String toString() {
-    return 'Species(growthRate: $growthRate)';
+    return 'Species(habitat: $habitat, growthRate: $growthRate, eggGroups: $eggGroups)';
   }
 
   @override
@@ -135,13 +191,17 @@ class _$SpeciesImpl implements _Species {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SpeciesImpl &&
+            (identical(other.habitat, habitat) || other.habitat == habitat) &&
             (identical(other.growthRate, growthRate) ||
-                other.growthRate == growthRate));
+                other.growthRate == growthRate) &&
+            const DeepCollectionEquality()
+                .equals(other._eggGroups, _eggGroups));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, growthRate);
+  int get hashCode => Object.hash(runtimeType, habitat, growthRate,
+      const DeepCollectionEquality().hash(_eggGroups));
 
   /// Create a copy of Species
   /// with the given fields replaced by the non-null parameter values.
@@ -160,12 +220,19 @@ class _$SpeciesImpl implements _Species {
 }
 
 abstract class _Species implements Species {
-  factory _Species({required final GrowthRate growthRate}) = _$SpeciesImpl;
+  factory _Species(
+      {final Habitat? habitat,
+      required final GrowthRate growthRate,
+      final List<EggGroup> eggGroups}) = _$SpeciesImpl;
 
   factory _Species.fromJson(Map<String, dynamic> json) = _$SpeciesImpl.fromJson;
 
   @override
+  Habitat? get habitat;
+  @override
   GrowthRate get growthRate;
+  @override
+  List<EggGroup> get eggGroups;
 
   /// Create a copy of Species
   /// with the given fields replaced by the non-null parameter values.

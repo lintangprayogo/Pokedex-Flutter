@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedex/data/pokemon_service.dart';
 import 'package:pokedex/domain/get_pokemon.dart';
 import 'package:pokedex/domain/get_pokemon_info.dart';
-import 'package:pokedex/domain/pokemon_domain.dart';
 import 'package:pokedex/presentation/bloc/info/pokemon_info_cubit.dart';
 import 'package:pokedex/presentation/bloc/pokemon/pokemon_bloc.dart';
 import 'package:pokedex/presentation/page/home/home_page.dart';
@@ -28,11 +27,7 @@ class PokeApp extends StatelessWidget {
       ),
        GoRoute(
         path: "/info",
-        builder: (context, state) {
-         final  extra = state.extra as PokemonDomain;
-          context.read<PokemonInfoCubit>().execute(extra.name);
-          return InfoPage(pokemon: extra );
-        },
+        builder: (context, state)=> const InfoPage()
       )
     ]);
     return MultiBlocProvider(

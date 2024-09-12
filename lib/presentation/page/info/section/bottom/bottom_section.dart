@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/domain/pokemon_info_domain.dart';
 import 'package:pokedex/presentation/page/info/section/bottom/tab/about_tab.dart';
+import 'package:pokedex/presentation/page/info/section/bottom/tab/evolution_tab.dart';
 import 'package:pokedex/presentation/page/info/section/bottom/tab/move_tab.dart';
+import 'package:pokedex/presentation/page/info/section/bottom/tab/stat_tab.dart';
 
 class DetailBody extends StatefulWidget {
   const DetailBody({
     super.key,
-    required this.data,
+    required this.info,
   });
 
-  final PokemonInfoDomain data;
+  final PokemonInfoDomain info;
 
   @override
   State<DetailBody> createState() => _DetailBodyState();
@@ -57,13 +59,13 @@ class _DetailBodyState extends State<DetailBody> with TickerProviderStateMixin {
               builder: (context, _) {
                 switch (_tabController.index) {
                   case 0:
-                    return AboutTab(data: widget.data);
+                    return AboutTab(data: widget.info);
                   case 1:
-                    return Text("Stat");
+                    return StatTab(stats: widget.info.stats);
                   case 2:
-                    return Text("evol");
+                    return EvolutionPage(info: widget.info);
                   case 3:
-                    return MovesPage(data: widget.data);
+                    return MovesTab(data: widget.info);
                   default:
                     return Container();
                 }

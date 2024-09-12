@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pokedex/presentation/bloc/info/pokemon_info_cubit.dart';
 import 'package:pokedex/presentation/page/component/pokeball.dart';
 import 'package:pokedex/domain/pokemon_domain.dart';
 import 'package:pokedex/presentation/page/component/pokemon_type_widget.dart';
@@ -17,7 +19,8 @@ class PokemonItem extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        context.push("/info", extra: pokemon);
+        context.read<PokemonInfoCubit>().execute(pokemon.name);
+        context.push("/info");
       },
       child: Container(
         width: double.infinity,
@@ -49,7 +52,7 @@ class PokemonItem extends StatelessWidget {
                     height: 4,
                   ),
                   PokeTypesWidget(
-                    pokemon: pokemon,
+                    types: pokemon.types,
                     textStyle: theme.textTheme.labelMedium
                         ?.copyWith(color: Colors.white),
                   ),

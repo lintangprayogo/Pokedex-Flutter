@@ -63,7 +63,7 @@ class _DetailBodyState extends State<DetailBody> with TickerProviderStateMixin {
                   case 2:
                     return Text("evol");
                   case 3:
-                    return MovesPage(data: widget.data);
+                    return MovesTab(data: widget.data);
                   default:
                     return Container();
                 }

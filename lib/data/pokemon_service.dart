@@ -8,6 +8,7 @@ import 'package:pokedex/data/network/shared/pokemon_request.dart';
 import 'package:pokedex/data/pokemon_repository.dart';
 import 'package:pokedex/domain/pokemon_domain.dart';
 import 'package:pokedex/domain/pokemon_info_domain.dart';
+import 'package:pokedex/util/extension.dart';
 
 class PokemonService extends PokemonRepository {
   final Dio dio;
@@ -17,8 +18,8 @@ class PokemonService extends PokemonRepository {
 
   @override
   Future<List<PokemonDomain>> fetchPokemons(PokemonRequest request) async {
-    final responseList = await dio
-        .get("$baseUrl/pokemon?limit=${request.limit}&offset=${request.offset}");
+    final responseList = await dio.get(
+        "$baseUrl/pokemon?limit=${request.limit}&offset=${request.offset}");
 
     final nameResults = PokemonNameResponse.fromJson(responseList.data).results;
 
@@ -52,12 +53,23 @@ class PokemonService extends PokemonRepository {
     return Species.fromJson(response.data);
   }
 
+  Future<List<PokemonDomain>> fetchEvolutionChain({required int id}) async {
+    final response = await dio.get("/evolution-chain/$id");
+    //final evolutionChain = EvolutionD.fromJson(response.data);
+
+    return [];
+  }
+
   @override
   Future<PokemonInfoDomain> getPokemonDetailInfo(String name) async {
     final basicInfo = await _getPokemonBasicInfo(name);
     final species = await _getPokemonSpecies(name);
 
-    final stats = <PokemonStatDomain>[];
+    final stats = basicInfo.stats
+        .map((e) => PokemonStatDomain(
+            statName: e.name.replaceAll("-", " ").toTitleCase,
+            baseStat: e.baseStat))
+        .toList();
     final types = basicInfo.types.map((e) => e.type.name).toList();
     final abilities = basicInfo.abilities.map((e) => e.ability.name).toList();
     final moves = basicInfo.moves.map((e) => e.move.name).toList();
@@ -70,10 +82,10 @@ class PokemonService extends PokemonRepository {
         types: types,
         stats: stats,
         abilities: abilities,
-        habitatName: "",
+        habitatName: species.habitat?.name ?? "",
         height: basicInfo.height,
         moves: moves,
-        eggGroups: [],
+        eggGroups: species.eggGroups.map((e) => e.name).toList(),
         growthRate: species.growthRate.name,
         weight: basicInfo.hashCode);
   }

@@ -122,17 +122,17 @@ class AboutTab extends StatelessWidget {
         ),
         Row(
           children: [
-            const Expanded(
+        Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text("Growth rate"),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text("Growth rate",style: Theme.of(context).textTheme.labelSmall,),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text("Egg Groups"),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text("Egg Groups",style: Theme.of(context).textTheme.labelSmall),
                   ),
                 ],
               ),

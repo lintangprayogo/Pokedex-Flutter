@@ -12,10 +12,10 @@ class PokemonInfoCubit extends Cubit<PokemonInfoState> {
 
   execute(String name) async {
     try {
+      emit(PokemonInfoState());
       final info = await _getPokemonInfo.excute(name);
-      emit(state.copyWith(info: info,status: PokemonInfoStatus.success));
+      emit(state.copyWith(info: info, status: PokemonInfoStatus.success));
     } catch (e) {
-      print(e);
       emit(state.copyWith(info: null, status: PokemonInfoStatus.failure));
     }
   }
