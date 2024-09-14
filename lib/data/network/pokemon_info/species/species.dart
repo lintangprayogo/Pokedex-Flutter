@@ -11,13 +11,16 @@ class Species with _$Species {
   factory Species(
       {@Default(null) Habitat? habitat,
       required GrowthRate growthRate,
-      @Default([]) List<EggGroup> eggGroups}) = _Species;
+      @Default([]) List<EggGroup> eggGroups,
+      @Default("") String evolutionUrl}) = _Species;
 
   factory Species.fromJson(Map<String, dynamic> json) => Species(
       habitat: Habitat.fromJson(json["habitat"]),
       eggGroups: (json["egg_groups"] as List<dynamic>)
-          .map((e) => EggGroup.fromJson(e)).toList(),
+          .map((e) => EggGroup.fromJson(e))
+          .toList(),
       growthRate: GrowthRate.fromJson(
         json["growth_rate"],
-      ));
+      ),
+      evolutionUrl: json["evolution_chain"]["url"]);
 }

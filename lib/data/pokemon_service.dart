@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
+import 'package:pokedex/data/network/pokemon_info/evolution/chain/evolution_chain.dart';
+import 'package:pokedex/data/network/pokemon_info/evolution/evolution.dart';
+import 'package:pokedex/data/network/pokemon_info/evolution/species_name/species_name.dart';
 import 'package:pokedex/data/network/pokemon_info/species/species.dart';
 import 'package:pokedex/data/network/pokemon_name/results/results.dart';
 import 'package:pokedex/data/network/pokemon_info/pokemon_basic_info_response.dart';
@@ -53,11 +56,22 @@ class PokemonService extends PokemonRepository {
     return Species.fromJson(response.data);
   }
 
-  Future<List<PokemonDomain>> fetchEvolutionChain({required int id}) async {
-    final response = await dio.get("/evolution-chain/$id");
-    //final evolutionChain = EvolutionD.fromJson(response.data);
+  Future<List<List<PokemonDomain>>> fetchEvolutionChain(
+      {required String evolutionUrl}) async {
+    final response = await dio.get(evolutionUrl);
 
-    return [];
+    final evolution = Evolution.fromJson(response.data);
+
+    List<SpeciesName> pokemonNames = evolution.chain.getAllSpecies();
+
+    List<PokemonDomain> pokemons = [];
+
+    for (var data in pokemonNames) {
+      final pokemon = await _resultAsPokemonDomain(data.name);
+      pokemons.add(pokemon);
+    }
+
+    return _evolutionPair(pokemons);
   }
 
   @override
@@ -73,6 +87,8 @@ class PokemonService extends PokemonRepository {
     final types = basicInfo.types.map((e) => e.type.name).toList();
     final abilities = basicInfo.abilities.map((e) => e.ability.name).toList();
     final moves = basicInfo.moves.map((e) => e.move.name).toList();
+    final evolutionPair =
+        await fetchEvolutionChain(evolutionUrl: species.evolutionUrl);
 
     return PokemonInfoDomain(
         id: "#${NumberFormat("0000").format(basicInfo.id)}",
@@ -87,6 +103,30 @@ class PokemonService extends PokemonRepository {
         moves: moves,
         eggGroups: species.eggGroups.map((e) => e.name).toList(),
         growthRate: species.growthRate.name,
+        evolutionPair: evolutionPair,
         weight: basicInfo.hashCode);
+  }
+
+  List<List<PokemonDomain>> _evolutionPair(List<PokemonDomain> pokemons) {
+    // it will return list of list of pokemon that will be grouped by 2 that is before evo and after eo
+    final result = <List<PokemonDomain>>[];
+    for (var i = 0; i < pokemons.length; i++) {
+      if (i + 1 < pokemons.length) {
+        result.add([pokemons[i], pokemons[i + 1]]);
+      }
+    }
+
+    return result;
+  }
+}
+
+extension on EvolutionChain {
+  List<SpeciesName> getAllSpecies() {
+    List<SpeciesName> list = [];
+    list.add(species);
+    for (var data in evolveTo) {
+      list.addAll(data.getAllSpecies());
+    }
+    return list;
   }
 }

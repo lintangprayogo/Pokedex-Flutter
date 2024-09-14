@@ -19,7 +19,8 @@ class PokeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final route = GoRouter(routes: [
+    final route = GoRouter(
+      routes: [
       GoRoute(
         path: "/",
         builder: (context, state) => const HomePage(),
@@ -37,6 +38,7 @@ class PokeApp extends StatelessWidget {
           routerConfig: route,
           theme: lightTheme,
           debugShowCheckedModeBanner: false,
-        ));
+        )
+        );
   }
 }

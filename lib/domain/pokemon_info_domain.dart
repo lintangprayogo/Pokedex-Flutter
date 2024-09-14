@@ -1,3 +1,5 @@
+import 'package:pokedex/domain/pokemon_domain.dart';
+
 class PokemonInfoDomain {
   final String id;
   final String name;
@@ -11,8 +13,9 @@ class PokemonInfoDomain {
   final List<String> abilities;
   final List<String> moves;
   final String growthRate;
+  final List<List<PokemonDomain>> evolutionPair;
 
-  PokemonInfoDomain(
+  const PokemonInfoDomain(
       {required this.id,
       required this.name,
       required this.sprites,
@@ -24,7 +27,8 @@ class PokemonInfoDomain {
       required this.eggGroups,
       required this.abilities,
       required this.growthRate,
-      required this.moves});
+      required this.moves,
+      required this.evolutionPair});
 }
 
 class PokemonStatDomain {

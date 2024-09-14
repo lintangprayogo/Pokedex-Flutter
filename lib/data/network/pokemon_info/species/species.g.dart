@@ -17,6 +17,7 @@ _$SpeciesImpl _$$SpeciesImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => EggGroup.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      evolutionUrl: json['evolutionUrl'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$SpeciesImplToJson(_$SpeciesImpl instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$SpeciesImplToJson(_$SpeciesImpl instance) =>
       'habitat': instance.habitat,
       'growthRate': instance.growthRate,
       'eggGroups': instance.eggGroups,
+      'evolutionUrl': instance.evolutionUrl,
     };
