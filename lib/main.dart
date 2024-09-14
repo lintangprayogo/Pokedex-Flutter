@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pokedex/data/pokemon_repository.dart';
 import 'package:pokedex/di/locator.dart';
-import 'package:pokedex/domain/get_pokemon.dart';
-import 'package:pokedex/domain/get_pokemon_info.dart';
 import 'package:pokedex/presentation/bloc/info/pokemon_info_cubit.dart';
 import 'package:pokedex/presentation/bloc/pokemon/pokemon_bloc.dart';
 import 'package:pokedex/presentation/page/home/home_page.dart';
@@ -12,6 +9,7 @@ import 'package:pokedex/presentation/page/info/info_page.dart';
 import 'package:pokedex/util/theme/light/light_theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   setup();
   runApp(const PokeApp());
 }
@@ -31,10 +29,9 @@ class PokeApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
           BlocProvider(
-              create: (context) => locator.get<PokemonBloc>()
-                ..add(PokemonEvent())),
-          BlocProvider(
-            create: (context) => locator.get<PokemonInfoCubit>())
+              create: (context) =>
+                  locator.get<PokemonBloc>()..add(PokemonEvent())),
+          BlocProvider(create: (context) => locator.get<PokemonInfoCubit>())
         ],
         child: MaterialApp.router(
           routerConfig: route,
