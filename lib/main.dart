@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/di/locator.dart';
 import 'package:pokedex/presentation/bloc/info/pokemon_info_cubit.dart';
 import 'package:pokedex/presentation/bloc/pokemon/pokemon_bloc.dart';
+import 'package:pokedex/presentation/bloc/search/pokemon_search_cubit.dart';
 import 'package:pokedex/presentation/page/home/home_page.dart';
 import 'package:pokedex/presentation/page/info/info_page.dart';
 import 'package:pokedex/util/theme/light/light_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+   Gemini.init(apiKey: "YOUR-API-KEY");
   setup();
   runApp(const PokeApp());
 }
@@ -32,7 +35,8 @@ class PokeApp extends StatelessWidget {
           BlocProvider(
               create: (context) =>
                   locator.get<PokemonBloc>()..add(PokemonEvent())),
-          BlocProvider(create: (context) => locator.get<PokemonInfoCubit>())
+          BlocProvider(create: (context) => locator.get<PokemonInfoCubit>()),
+          BlocProvider(create: (context) => locator.get<PokemonSearchCubit>())
         ],
         child: MaterialApp.router(
           routerConfig: route,

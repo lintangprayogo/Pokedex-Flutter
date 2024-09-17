@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PokemonState {
-  PokemonStatus get status => throw _privateConstructorUsedError;
+  Status get status => throw _privateConstructorUsedError;
   List<PokemonDomain> get pokemons => throw _privateConstructorUsedError;
   bool get hasReachedMax => throw _privateConstructorUsedError;
   int get offset => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $PokemonStateCopyWith<$Res> {
       _$PokemonStateCopyWithImpl<$Res, PokemonState>;
   @useResult
   $Res call(
-      {PokemonStatus status,
+      {Status status,
       List<PokemonDomain> pokemons,
       bool hasReachedMax,
       int offset});
@@ -65,7 +65,7 @@ class _$PokemonStateCopyWithImpl<$Res, $Val extends PokemonState>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PokemonStatus,
+              as Status,
       pokemons: null == pokemons
           ? _value.pokemons
           : pokemons // ignore: cast_nullable_to_non_nullable
@@ -91,7 +91,7 @@ abstract class _$$PokemonStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {PokemonStatus status,
+      {Status status,
       List<PokemonDomain> pokemons,
       bool hasReachedMax,
       int offset});
@@ -119,7 +119,7 @@ class __$$PokemonStateImplCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as PokemonStatus,
+              as Status,
       pokemons: null == pokemons
           ? _value._pokemons
           : pokemons // ignore: cast_nullable_to_non_nullable
@@ -140,7 +140,7 @@ class __$$PokemonStateImplCopyWithImpl<$Res>
 
 class _$PokemonStateImpl implements _PokemonState {
   _$PokemonStateImpl(
-      {this.status = PokemonStatus.initial,
+      {this.status = Status.loading,
       final List<PokemonDomain> pokemons = const <PokemonDomain>[],
       this.hasReachedMax = false,
       this.offset = 0})
@@ -148,7 +148,7 @@ class _$PokemonStateImpl implements _PokemonState {
 
   @override
   @JsonKey()
-  final PokemonStatus status;
+  final Status status;
   final List<PokemonDomain> _pokemons;
   @override
   @JsonKey()
@@ -197,13 +197,13 @@ class _$PokemonStateImpl implements _PokemonState {
 
 abstract class _PokemonState implements PokemonState {
   factory _PokemonState(
-      {final PokemonStatus status,
+      {final Status status,
       final List<PokemonDomain> pokemons,
       final bool hasReachedMax,
       final int offset}) = _$PokemonStateImpl;
 
   @override
-  PokemonStatus get status;
+  Status get status;
   @override
   List<PokemonDomain> get pokemons;
   @override

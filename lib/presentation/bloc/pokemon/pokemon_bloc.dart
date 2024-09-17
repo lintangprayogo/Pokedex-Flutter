@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pokedex/data/network/shared/pokemon_request.dart';
 import 'package:pokedex/domain/get_pokemon.dart';
 import 'package:pokedex/domain/pokemon_domain.dart';
+import 'package:pokedex/presentation/bloc/status.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 
@@ -31,19 +32,18 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
     if (state.hasReachedMax) return;
 
     try {
-      final pokemons = await _getPokemon
-          .excute(PokemonRequest(offset: state.offset));
+      final pokemons =
+          await _getPokemon.excute(PokemonRequest(offset: state.offset));
 
       return pokemons.isEmpty
           ? emit(state.copyWith(hasReachedMax: true))
           : emit(state.copyWith(
-              status: PokemonStatus.success,
+              status: Status.success,
               pokemons: state.pokemons + pokemons,
               offset: state.offset + pokemons.length,
             ));
     } catch (e) {
-      print("${e}");
-      emit(state.copyWith(status: PokemonStatus.failure));
+      emit(state.copyWith(status: Status.failure));
     }
   }
 }

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:intl/intl.dart';
 import 'package:pokedex/data/network/pokemon_info/evolution/chain/evolution_chain.dart';
 import 'package:pokedex/data/network/pokemon_info/evolution/evolution.dart';
@@ -16,6 +19,7 @@ import 'package:pokedex/util/extension.dart';
 class PokemonService extends PokemonRepository {
   final Dio dio;
   final String baseUrl = "https://pokeapi.co/api/v2/";
+  final Gemini client = Gemini.instance;
 
   PokemonService({required this.dio});
 
@@ -29,14 +33,14 @@ class PokemonService extends PokemonRepository {
     List<PokemonDomain> pokemons = [];
 
     for (Result result in nameResults) {
-      final pokemon = await _resultAsPokemonDomain(result.name);
+      final pokemon = await _getPokemonDomain(result.name);
       pokemons.add(pokemon);
     }
 
     return pokemons;
   }
 
-  Future<PokemonDomain> _resultAsPokemonDomain(String name) async {
+  Future<PokemonDomain> _getPokemonDomain(String name) async {
     final basicInfo = await _getPokemonBasicInfo(name);
     return PokemonDomain(
         id: "#${NumberFormat("0000").format(basicInfo.id)}",
@@ -47,7 +51,7 @@ class PokemonService extends PokemonRepository {
   }
 
   Future<PokemonBasicInfoResponse> _getPokemonBasicInfo(String name) async {
-    final response = await dio.get("$baseUrl/pokemon/$name");
+    final response = await dio.get("${baseUrl}pokemon/$name");
     return PokemonBasicInfoResponse.fromJson(response.data);
   }
 
@@ -67,7 +71,7 @@ class PokemonService extends PokemonRepository {
     List<PokemonDomain> pokemons = [];
 
     for (var data in pokemonNames) {
-      final pokemon = await _resultAsPokemonDomain(data.name);
+      final pokemon = await _getPokemonDomain(data.name);
       pokemons.add(pokemon);
     }
 
@@ -117,6 +121,40 @@ class PokemonService extends PokemonRepository {
     }
 
     return result;
+  }
+
+  Future<Candidates> identifyByImage({
+    required File image,
+  }) async {
+    final response = await client.textAndImage(
+      text:
+          "if this image doesn't contain any single pokemon give response \"pokemon not found\", if any pokemon give a name of selected pokemon",
+      images: [
+        image.readAsBytesSync(),
+      ],
+    );
+    if (response != null) {
+      return response;
+    }
+    throw Exception("Failed to find pokemon");
+  }
+
+  @override
+  Future<PokemonDomain> searchPokemonByImage(File image) async {
+    final candidates = await identifyByImage(image: image);
+
+    String name = "";
+    for (final item in candidates.content?.parts ?? []) {
+      name += " ${item.text ?? ""}";
+    }
+    name = name.replaceAll(".", "").replaceAll(" ", "").replaceAll("\n", "").toLowerCase();
+    final pokemon = await _getPokemonDomain(name);
+    return pokemon;
+  }
+
+  @override
+  Future<PokemonDomain> searchPokemonByText(String name) async {
+    return await _getPokemonDomain(name);
   }
 }
 

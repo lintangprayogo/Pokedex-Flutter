@@ -43,28 +43,28 @@ class AboutTab extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       "Habitat",
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       "Height",
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       "Weight",
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text("Abilities",
                         style: Theme.of(context).textTheme.labelSmall),
                   ),
@@ -144,7 +144,7 @@ class AboutTab extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("${data.growthRate}"),
+                    child: Text(data.growthRate),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
