@@ -10,8 +10,6 @@ import 'package:pokedex/presentation/page/info/section/top/top_section.dart';
 import 'package:pokedex/util/theme/app_theme.dart';
 
 class InfoPage extends StatelessWidget {
-
-
   const InfoPage({super.key});
   @override
   Widget build(BuildContext context) {
@@ -27,12 +25,14 @@ class InfoPage extends StatelessWidget {
             child: Text("Failed To Get Detail"),
           );
         }
-      if (state.info == null) {
+        if (state.info == null) {
           return const Center(
             child: Text("Pokemon Not Found"),
           );
         }
         final info = state.info!;
+
+
         return Stack(
           fit: StackFit.loose,
           children: [
@@ -51,6 +51,7 @@ class InfoPage extends StatelessWidget {
                 initialChildSize: 0.6,
                 minChildSize: 0.58,
                 maxChildSize: 1,
+                expand: false,
                 builder: (context, scrollController) {
                   return Container(
                     decoration: const BoxDecoration(
@@ -60,31 +61,12 @@ class InfoPage extends StatelessWidget {
                         topRight: Radius.circular(32),
                       ),
                     ),
-                    child: ListView(
+                    height: MediaQuery.sizeOf(context).height,
+                    child: SingleChildScrollView(
                       controller: scrollController,
-                      shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
-                      children: [
-                        SizedBox(
-                          child: Stack(
-                            children: [
-                              DetailBody(info: info),
-                              Transform.translate(
-                                offset: const Offset(0, -128),
-                                child: Center(
-                                  child: Image.network(
-                                    state.info!.sprites,
-                                    width: MediaQuery.of(context).size.width *
-                                        0.45,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                     child:DetailBody(info: info) ,
+                  ));
                 },
               ),
             ),

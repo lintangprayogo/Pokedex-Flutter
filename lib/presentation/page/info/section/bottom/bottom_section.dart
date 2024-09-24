@@ -37,9 +37,6 @@ class _DetailBodyState extends State<DetailBody> with TickerProviderStateMixin {
     return Column(
       // mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(
-          height: 40,
-        ),
         Row(
           children: [
             Expanded(
@@ -53,6 +50,7 @@ class _DetailBodyState extends State<DetailBody> with TickerProviderStateMixin {
           ],
         ),
         Container(
+          height: MediaQuery.sizeOf(context).height,
           padding: const EdgeInsets.fromLTRB(24, 16, 16, 0),
           child: AnimatedBuilder(
               animation: _tabController,
@@ -61,7 +59,7 @@ class _DetailBodyState extends State<DetailBody> with TickerProviderStateMixin {
                   case 0:
                     return AboutTab(data: widget.info);
                   case 1:
-                    return StatTab(stats: widget.info.stats);
+                    return StatTab( widget.info);
                   case 2:
                     return EvolutionPage(info: widget.info);
                   case 3:

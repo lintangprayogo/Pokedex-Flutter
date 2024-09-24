@@ -1,3 +1,4 @@
+import 'package:pokedex/domain/damage_relation_domain.dart';
 import 'package:pokedex/domain/pokemon_domain.dart';
 
 class PokemonInfoDomain {
@@ -14,6 +15,7 @@ class PokemonInfoDomain {
   final List<String> moves;
   final String growthRate;
   final List<List<PokemonDomain>> evolutionPair;
+  final DamageRelationDomain damageRelation;
 
   const PokemonInfoDomain(
       {required this.id,
@@ -28,7 +30,9 @@ class PokemonInfoDomain {
       required this.abilities,
       required this.growthRate,
       required this.moves,
-      required this.evolutionPair});
+      required this.evolutionPair,
+      required this.damageRelation
+      });
 }
 
 class PokemonStatDomain {

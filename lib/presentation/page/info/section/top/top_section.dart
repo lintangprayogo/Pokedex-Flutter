@@ -66,10 +66,26 @@ class TopSection extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(height: 8,),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            PokeballWidget(size: 150, color: Colors.black.withOpacity(0.2))
+            Stack(
+              children: [
+                PokeballWidget(size: 160, color: Colors.black.withOpacity(0.2)),
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Image.network(
+                    pokemon.sprites,
+                    width: 110,
+                    height: 110,
+                  ),
+                ),
+              ],
+            )
           ],
         )
       ],

@@ -7,11 +7,14 @@ import 'package:pokedex/data/network/pokemon_info/evolution/chain/evolution_chai
 import 'package:pokedex/data/network/pokemon_info/evolution/evolution.dart';
 import 'package:pokedex/data/network/pokemon_info/evolution/species_name/species_name.dart';
 import 'package:pokedex/data/network/pokemon_info/species/species.dart';
+import 'package:pokedex/data/network/pokemon_info/type_relation/damage_relation.dart';
 import 'package:pokedex/data/network/pokemon_name/results/results.dart';
 import 'package:pokedex/data/network/pokemon_info/pokemon_basic_info_response.dart';
 import 'package:pokedex/data/network/pokemon_name/pokemon_name_response.dart';
 import 'package:pokedex/data/network/shared/pokemon_request.dart';
 import 'package:pokedex/data/pokemon_repository.dart';
+import 'package:pokedex/domain/damage_domain.dart';
+import 'package:pokedex/domain/damage_relation_domain.dart';
 import 'package:pokedex/domain/pokemon_domain.dart';
 import 'package:pokedex/domain/pokemon_info_domain.dart';
 import 'package:pokedex/util/extension.dart';
@@ -78,6 +81,43 @@ class PokemonService extends PokemonRepository {
     return _evolutionPair(pokemons);
   }
 
+  Future<DamageRelationDomain> fetchDamageRelation(
+      {required String typeUrl}) async {
+    List<DamageDomain> damageFrom = [];
+    List<DamageDomain> damageTo = [];
+    final response = await dio.get(typeUrl);
+
+    final damageRelation =
+        DamageRelation.fromJson(response.data["damage_relations"]);
+
+    for (var relation in damageRelation.noDamageFrom) {
+      damageFrom.add(DamageDomain(type: relation.name, effectiveness: "0x"));
+    }
+
+    for (var relation in damageRelation.halfDamageFrom) {
+      damageFrom.add(DamageDomain(type: relation.name, effectiveness: "1/2x"));
+    }
+
+    for (var relation in damageRelation.doubleDamageFrom) {
+      damageFrom.add(DamageDomain(type: relation.name, effectiveness: "2x"));
+    }
+
+    ///Damage to  another pokemon
+    for (var relation in damageRelation.noDamageTo) {
+      damageTo.add(DamageDomain(type: relation.name, effectiveness: "0x"));
+    }
+
+    for (var relation in damageRelation.halfDamageTo) {
+      damageTo.add(DamageDomain(type: relation.name, effectiveness: "1/2x"));
+    }
+
+    for (var relation in damageRelation.doubleDamageTo) {
+      damageTo.add(DamageDomain(type: relation.name, effectiveness: "2x"));
+    }
+
+    return DamageRelationDomain(damageFrom: damageFrom, damageTo: damageTo);
+  }
+
   @override
   Future<PokemonInfoDomain> getPokemonDetailInfo(String name) async {
     final basicInfo = await _getPokemonBasicInfo(name);
@@ -94,6 +134,8 @@ class PokemonService extends PokemonRepository {
     final evolutionPair =
         await fetchEvolutionChain(evolutionUrl: species.evolutionUrl);
 
+    final damageRelation = await fetchDamageRelation(typeUrl: basicInfo.types.first.type.url);
+
     return PokemonInfoDomain(
         id: "#${NumberFormat("0000").format(basicInfo.id)}",
         name: name,
@@ -108,7 +150,8 @@ class PokemonService extends PokemonRepository {
         eggGroups: species.eggGroups.map((e) => e.name).toList(),
         growthRate: species.growthRate.name,
         evolutionPair: evolutionPair,
-        weight: basicInfo.hashCode);
+        weight: basicInfo.hashCode,
+        damageRelation: damageRelation);
   }
 
   List<List<PokemonDomain>> _evolutionPair(List<PokemonDomain> pokemons) {
@@ -147,7 +190,11 @@ class PokemonService extends PokemonRepository {
     for (final item in candidates.content?.parts ?? []) {
       name += " ${item.text ?? ""}";
     }
-    name = name.replaceAll(".", "").replaceAll(" ", "").replaceAll("\n", "").toLowerCase();
+    name = name
+        .replaceAll(".", "")
+        .replaceAll(" ", "")
+        .replaceAll("\n", "")
+        .toLowerCase();
     final pokemon = await _getPokemonDomain(name);
     return pokemon;
   }
