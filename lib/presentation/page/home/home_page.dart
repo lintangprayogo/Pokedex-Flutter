@@ -119,7 +119,32 @@ class _HomePageState extends State<HomePage> {
                                 }
                               }
                             },
-                            icon: const Icon(Icons.image_search))
+                            icon: const Icon(Icons.image_search)),
+                                 IconButton(
+                            onPressed: () async {
+                              try {
+                                final picker = ImagePicker();
+                                final image = await picker.pickImage(
+                                  source: ImageSource.camera,
+                                );
+                                if (image != null && context.mounted) {
+                                  context
+                                      .read<PokemonSearchCubit>()
+                                      .searchByImage(File(image.path));
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(e.toString()),
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                            icon: const Icon(Icons.camera))
+
+
                       ],
                     );
                   },

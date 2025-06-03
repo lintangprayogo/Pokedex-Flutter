@@ -72,7 +72,10 @@ class TopSection extends StatelessWidget {
           children: [
             Stack(
               children: [
-                PokeballWidget(size: 160, color: Colors.black.withOpacity(0.2)),
+                PokeballWidget(size: 160, color: Colors.black.withValues(alpha: 0.2)
+              
+  
+                ),
                 Positioned(
                   top: 0,
                   bottom: 0,
