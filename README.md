@@ -14,9 +14,13 @@ This is a **Pokedex application** built with **Flutter**, designed to showcase t
 * **Flutter Framework**: A beautiful and performant cross-platform mobile application developed using Flutter.
 * **Google Gemini Integration**: Leverages the Gemini API for advanced image recognition capabilities, enabling users to identify Pokémon from uploaded images.
 * **Pokedex Functionality**: Displays detailed information about various Pokémon, including their types, abilities, statistics, and more.
-
-
 ---
+
+## Video Demonstration
+
+Check out a quick demo of the Pokedex app in action:
+
+[Watch the Demo Video](https://www.youtube.com/shorts/UQ4-MegDlXQ)
 
 ## Why Clean Architecture?
 
