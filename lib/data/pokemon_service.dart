@@ -184,6 +184,7 @@ class PokemonService extends PokemonRepository {
 
   @override
   Future<PokemonDomain> searchPokemonByImage(File image) async {
+    try{
     final candidates = await identifyByImage(image: image);
 
     String name = "";
@@ -197,6 +198,10 @@ class PokemonService extends PokemonRepository {
         .toLowerCase();
     final pokemon = await _getPokemonDomain(name);
     return pokemon;
+    }  catch(e){
+      throw Exception("Failed to find pokemon");
+    }  
+  
   }
 
   @override

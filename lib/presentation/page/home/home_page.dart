@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
               left: 8,
               right: 8,
               child: PokeballWidget(
-                  size: 250, color: Colors.grey.withOpacity(0.1))),
+                  size: 250, color: Colors.grey.withValues(alpha: 0.1))),
           Container(
             margin: const EdgeInsets.fromLTRB(24, 50, 24, 40),
             child: Column(
@@ -75,6 +75,12 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Expanded(
                           child: TextField(
+                            onSubmitted: (value) {
+                              if(value.isNotEmpty){
+                              context.read().context.read<PokemonSearchCubit>(). searchByText(value);
+
+                              }
+                            },
                             decoration: InputDecoration(
                                 filled: true,
                                 fillColor:
@@ -120,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                               }
                             },
                             icon: const Icon(Icons.image_search)),
-                                 IconButton(
+                        IconButton(
                             onPressed: () async {
                               try {
                                 final picker = ImagePicker();
@@ -143,8 +149,6 @@ class _HomePageState extends State<HomePage> {
                               }
                             },
                             icon: const Icon(Icons.camera))
-
-
                       ],
                     );
                   },
@@ -210,7 +214,7 @@ class _HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
-                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
                 context.read<PokemonInfoCubit>().execute(pokemon.name);
                 context.push("/info");
               },
